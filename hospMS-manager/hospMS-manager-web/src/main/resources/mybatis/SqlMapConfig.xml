@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+           分页插件
+           第一步：需要在SqlMapConfig.xml，配置一个Plugin
+           第二步：在sql语句执行之前，添加一个PageHelper.startPage(page rows);
+           第三步：取分页结果。创建一个PageInfo对象需要参数，查询结果返回的list。从PageInfo对象中取分页结果。
+       添加jar包
+       -->
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+           <!-- 配置支持的数据库-->
+            <property name="dialect" value="mysql"></property>
+        </plugin>
+    </plugins>
+</configuration>

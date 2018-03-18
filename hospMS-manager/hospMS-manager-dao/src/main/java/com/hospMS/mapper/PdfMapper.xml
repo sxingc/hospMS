@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hospMS.mapper.PdfMapper" >
+  <resultMap id="BaseResultMap" type="com.hospMS.pojo.Pdf" >
+    <id column="pdf_id" property="pdfId" jdbcType="INTEGER" />
+    <result column="pdf_name" property="pdfName" jdbcType="VARCHAR" />
+    <result column="filetype_id" property="filetypeId" jdbcType="INTEGER" />
+    <result column="diag_list_id" property="diagListId" jdbcType="INTEGER" />
+    <result column="pdf_path" property="pdfPath" jdbcType="VARCHAR" />
+    <result column="pdf_content" property="pdfContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pdf_id, pdf_name, filetype_id, diag_list_id, pdf_path, pdf_content
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hospMS.pojo.PdfExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pdf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pdf
+    where pdf_id = #{pdfId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pdf
+    where pdf_id = #{pdfId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hospMS.pojo.PdfExample" >
+    delete from pdf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hospMS.pojo.Pdf" >
+    insert into pdf (pdf_id, pdf_name, filetype_id, 
+      diag_list_id, pdf_path, pdf_content
+      )
+    values (#{pdfId,jdbcType=INTEGER}, #{pdfName,jdbcType=VARCHAR}, #{filetypeId,jdbcType=INTEGER}, 
+      #{diagListId,jdbcType=INTEGER}, #{pdfPath,jdbcType=VARCHAR}, #{pdfContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hospMS.pojo.Pdf" >
+    insert into pdf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pdfId != null" >
+        pdf_id,
+      </if>
+      <if test="pdfName != null" >
+        pdf_name,
+      </if>
+      <if test="filetypeId != null" >
+        filetype_id,
+      </if>
+      <if test="diagListId != null" >
+        diag_list_id,
+      </if>
+      <if test="pdfPath != null" >
+        pdf_path,
+      </if>
+      <if test="pdfContent != null" >
+        pdf_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pdfId != null" >
+        #{pdfId,jdbcType=INTEGER},
+      </if>
+      <if test="pdfName != null" >
+        #{pdfName,jdbcType=VARCHAR},
+      </if>
+      <if test="filetypeId != null" >
+        #{filetypeId,jdbcType=INTEGER},
+      </if>
+      <if test="diagListId != null" >
+        #{diagListId,jdbcType=INTEGER},
+      </if>
+      <if test="pdfPath != null" >
+        #{pdfPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfContent != null" >
+        #{pdfContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hospMS.pojo.PdfExample" resultType="java.lang.Integer" >
+    select count(*) from pdf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pdf
+    <set >
+      <if test="record.pdfId != null" >
+        pdf_id = #{record.pdfId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pdfName != null" >
+        pdf_name = #{record.pdfName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filetypeId != null" >
+        filetype_id = #{record.filetypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.diagListId != null" >
+        diag_list_id = #{record.diagListId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pdfPath != null" >
+        pdf_path = #{record.pdfPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pdfContent != null" >
+        pdf_content = #{record.pdfContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pdf
+    set pdf_id = #{record.pdfId,jdbcType=INTEGER},
+      pdf_name = #{record.pdfName,jdbcType=VARCHAR},
+      filetype_id = #{record.filetypeId,jdbcType=INTEGER},
+      diag_list_id = #{record.diagListId,jdbcType=INTEGER},
+      pdf_path = #{record.pdfPath,jdbcType=VARCHAR},
+      pdf_content = #{record.pdfContent,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hospMS.pojo.Pdf" >
+    update pdf
+    <set >
+      <if test="pdfName != null" >
+        pdf_name = #{pdfName,jdbcType=VARCHAR},
+      </if>
+      <if test="filetypeId != null" >
+        filetype_id = #{filetypeId,jdbcType=INTEGER},
+      </if>
+      <if test="diagListId != null" >
+        diag_list_id = #{diagListId,jdbcType=INTEGER},
+      </if>
+      <if test="pdfPath != null" >
+        pdf_path = #{pdfPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfContent != null" >
+        pdf_content = #{pdfContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pdf_id = #{pdfId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hospMS.pojo.Pdf" >
+    update pdf
+    set pdf_name = #{pdfName,jdbcType=VARCHAR},
+      filetype_id = #{filetypeId,jdbcType=INTEGER},
+      diag_list_id = #{diagListId,jdbcType=INTEGER},
+      pdf_path = #{pdfPath,jdbcType=VARCHAR},
+      pdf_content = #{pdfContent,jdbcType=VARCHAR}
+    where pdf_id = #{pdfId,jdbcType=INTEGER}
+  </update>
+</mapper>

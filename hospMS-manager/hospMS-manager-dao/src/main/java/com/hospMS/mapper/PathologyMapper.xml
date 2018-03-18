@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hospMS.mapper.PathologyMapper" >
+  <resultMap id="BaseResultMap" type="com.hospMS.pojo.Pathology" >
+    <id column="pathology_id" property="pathologyId" jdbcType="INTEGER" />
+    <result column="pathology_name" property="pathologyName" jdbcType="VARCHAR" />
+    <result column="disease_id" property="diseaseId" jdbcType="INTEGER" />
+    <result column="pathology_order" property="pathologyOrder" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pathology_id, pathology_name, disease_id, pathology_order
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hospMS.pojo.PathologyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pathology
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pathology
+    where pathology_id = #{pathologyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pathology
+    where pathology_id = #{pathologyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hospMS.pojo.PathologyExample" >
+    delete from pathology
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hospMS.pojo.Pathology" >
+    insert into pathology (pathology_id, pathology_name, disease_id, 
+      pathology_order)
+    values (#{pathologyId,jdbcType=INTEGER}, #{pathologyName,jdbcType=VARCHAR}, #{diseaseId,jdbcType=INTEGER}, 
+      #{pathologyOrder,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hospMS.pojo.Pathology" >
+    insert into pathology
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pathologyId != null" >
+        pathology_id,
+      </if>
+      <if test="pathologyName != null" >
+        pathology_name,
+      </if>
+      <if test="diseaseId != null" >
+        disease_id,
+      </if>
+      <if test="pathologyOrder != null" >
+        pathology_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pathologyId != null" >
+        #{pathologyId,jdbcType=INTEGER},
+      </if>
+      <if test="pathologyName != null" >
+        #{pathologyName,jdbcType=VARCHAR},
+      </if>
+      <if test="diseaseId != null" >
+        #{diseaseId,jdbcType=INTEGER},
+      </if>
+      <if test="pathologyOrder != null" >
+        #{pathologyOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hospMS.pojo.PathologyExample" resultType="java.lang.Integer" >
+    select count(*) from pathology
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pathology
+    <set >
+      <if test="record.pathologyId != null" >
+        pathology_id = #{record.pathologyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pathologyName != null" >
+        pathology_name = #{record.pathologyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diseaseId != null" >
+        disease_id = #{record.diseaseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pathologyOrder != null" >
+        pathology_order = #{record.pathologyOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pathology
+    set pathology_id = #{record.pathologyId,jdbcType=INTEGER},
+      pathology_name = #{record.pathologyName,jdbcType=VARCHAR},
+      disease_id = #{record.diseaseId,jdbcType=INTEGER},
+      pathology_order = #{record.pathologyOrder,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hospMS.pojo.Pathology" >
+    update pathology
+    <set >
+      <if test="pathologyName != null" >
+        pathology_name = #{pathologyName,jdbcType=VARCHAR},
+      </if>
+      <if test="diseaseId != null" >
+        disease_id = #{diseaseId,jdbcType=INTEGER},
+      </if>
+      <if test="pathologyOrder != null" >
+        pathology_order = #{pathologyOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pathology_id = #{pathologyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hospMS.pojo.Pathology" >
+    update pathology
+    set pathology_name = #{pathologyName,jdbcType=VARCHAR},
+      disease_id = #{diseaseId,jdbcType=INTEGER},
+      pathology_order = #{pathologyOrder,jdbcType=INTEGER}
+    where pathology_id = #{pathologyId,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deletePathology" parameterType="java.util.List">
+    delete from pathology
+    where pathology_id in
+    <foreach item="pathologyId" collection="list" open="(" separator="," close=")">
+      #{pathologyId,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+</mapper>

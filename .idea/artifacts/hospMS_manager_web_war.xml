@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hospMS-manager-web:war">
+    <output-path>$PROJECT_DIR$/hospMS-manager/hospMS-manager-web/target</output-path>
+    <root id="archive" name="hospMS-manager-web.war">
+      <element id="artifact" artifact-name="hospMS-manager-web:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hospMS.mapper.ImageMapper" >
+  <resultMap id="BaseResultMap" type="com.hospMS.pojo.Image" >
+    <id column="image_id" property="imageId" jdbcType="INTEGER" />
+    <result column="filetype_id" property="filetypeId" jdbcType="INTEGER" />
+    <result column="diag_list_id" property="diagListId" jdbcType="INTEGER" />
+    <result column="image_name" property="imageName" jdbcType="VARCHAR" />
+    <result column="image_path" property="imagePath" jdbcType="CHAR" />
+    <result column="image_content" property="imageContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    image_id, filetype_id, diag_list_id, image_name, image_path, image_content
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hospMS.pojo.ImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hospMS.pojo.ImageExample" >
+    delete from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hospMS.pojo.Image" >
+    insert into image (image_id, filetype_id, diag_list_id, 
+      image_name, image_path, image_content
+      )
+    values (#{imageId,jdbcType=INTEGER}, #{filetypeId,jdbcType=INTEGER}, #{diagListId,jdbcType=INTEGER}, 
+      #{imageName,jdbcType=VARCHAR}, #{imagePath,jdbcType=CHAR}, #{imageContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hospMS.pojo.Image" >
+    insert into image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imageId != null" >
+        image_id,
+      </if>
+      <if test="filetypeId != null" >
+        filetype_id,
+      </if>
+      <if test="diagListId != null" >
+        diag_list_id,
+      </if>
+      <if test="imageName != null" >
+        image_name,
+      </if>
+      <if test="imagePath != null" >
+        image_path,
+      </if>
+      <if test="imageContent != null" >
+        image_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imageId != null" >
+        #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="filetypeId != null" >
+        #{filetypeId,jdbcType=INTEGER},
+      </if>
+      <if test="diagListId != null" >
+        #{diagListId,jdbcType=INTEGER},
+      </if>
+      <if test="imageName != null" >
+        #{imageName,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null" >
+        #{imagePath,jdbcType=CHAR},
+      </if>
+      <if test="imageContent != null" >
+        #{imageContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hospMS.pojo.ImageExample" resultType="java.lang.Integer" >
+    select count(*) from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update image
+    <set >
+      <if test="record.imageId != null" >
+        image_id = #{record.imageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.filetypeId != null" >
+        filetype_id = #{record.filetypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.diagListId != null" >
+        diag_list_id = #{record.diagListId,jdbcType=INTEGER},
+      </if>
+      <if test="record.imageName != null" >
+        image_name = #{record.imageName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imagePath != null" >
+        image_path = #{record.imagePath,jdbcType=CHAR},
+      </if>
+      <if test="record.imageContent != null" >
+        image_content = #{record.imageContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update image
+    set image_id = #{record.imageId,jdbcType=INTEGER},
+      filetype_id = #{record.filetypeId,jdbcType=INTEGER},
+      diag_list_id = #{record.diagListId,jdbcType=INTEGER},
+      image_name = #{record.imageName,jdbcType=VARCHAR},
+      image_path = #{record.imagePath,jdbcType=CHAR},
+      image_content = #{record.imageContent,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hospMS.pojo.Image" >
+    update image
+    <set >
+      <if test="filetypeId != null" >
+        filetype_id = #{filetypeId,jdbcType=INTEGER},
+      </if>
+      <if test="diagListId != null" >
+        diag_list_id = #{diagListId,jdbcType=INTEGER},
+      </if>
+      <if test="imageName != null" >
+        image_name = #{imageName,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null" >
+        image_path = #{imagePath,jdbcType=CHAR},
+      </if>
+      <if test="imageContent != null" >
+        image_content = #{imageContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hospMS.pojo.Image" >
+    update image
+    set filetype_id = #{filetypeId,jdbcType=INTEGER},
+      diag_list_id = #{diagListId,jdbcType=INTEGER},
+      image_name = #{imageName,jdbcType=VARCHAR},
+      image_path = #{imagePath,jdbcType=CHAR},
+      image_content = #{imageContent,jdbcType=VARCHAR}
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+</mapper>
