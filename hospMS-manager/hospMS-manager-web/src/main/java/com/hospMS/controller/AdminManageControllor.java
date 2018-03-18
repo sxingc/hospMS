@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,10 @@ public class AdminManageControllor {
 
     @RequestMapping(value = "/manage/delete/deleteAdmins" ,method = RequestMethod.POST)
     @ResponseBody
-    private HospMSResult deleteAdmins(List list){
+    private HospMSResult deleteAdmins(String ids){
+        System.out.println("===========================");
+        System.out.println(ids);
+        List<String> list = getList(ids);
         HospMSResult result=adminManageService.deleteAdmins(list);
         return result;
     }
@@ -63,6 +67,15 @@ public class AdminManageControllor {
     private Integer adminAdd(String adminName, String password,int roleId){
         HospMSResult result=adminManageService.adminAdd(adminName,password,roleId,0);
         return 0;
+    }
+
+    public List<String> getList(String id) {
+        List<String> list = new ArrayList<String>();
+        String[] str = id.split(",");
+        for (int i = 0; i < str.length; i++) {
+            list.add(str[i]);
+        }
+        return list;
     }
 
 

@@ -64,8 +64,8 @@ public class FieldManageController {
 //    delete
     @RequestMapping(value="/delete/deleteHospital/{ids}",method=RequestMethod.DELETE)
     @ResponseBody
-    public HospMSResult deleteHospitalById(@PathVariable("ids") String ids) {
-        List<String> list = getList(ids);
+    public HospMSResult deleteHospitalById(@PathVariable("ids") String idStr) {
+        List<String> list = getList(idStr);
         HospMSResult result= fieldManageService.deleteHospital(list);
         return result;
     }

@@ -36,7 +36,7 @@
 <div class="page-container">
     <div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l">
-			<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i
+			<a href="javascript:;" onclick="batch_del()" class="btn btn-danger radius"><i
                     class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 			<a href="javascript:;" onclick="admin_add('添加管理员','admin-add.html','800','500')"
                class="btn btn-primary radius">
@@ -94,6 +94,21 @@
     /*管理员-增加*/
     function admin_add(title, url, w, h) {
         layer_show(title, url, 800, 350);
+    }
+
+    function getSelectionsIds() {
+        var ids=[];
+        var selectCheckBoxDomArr = $(".checked");
+/*        selectCheckBoxDomArr.forEach(function (item, index) {
+            var id = $(item).getAttribute('id'); // input123
+            ids.push(id);
+        });*/
+        for (var i in selectCheckBoxDomArr){
+            var id = selectCheckBoxDomArr[i].id; // input123
+            ids.push(id);
+        }
+        ids =ids.join(',');
+        return ids;
     }
 
     /*管理员-删除*/
@@ -172,22 +187,35 @@
         });
     }
 
-    function batch_del() {
-        var idArr = [];
-        var selectCheckBoxDomArr = $(".checked")
-        selectCheckBoxDomArr.forEach(function (item, index) {
-            var idStr = $(item).getAttribute('id'); // input123
-            var id = idStr.substr(5);
-            idArr.push(id);
-            let idsStr = idArr.join(',');//[1,2,3]  => "1,2,3"
-            // });
-            //执行删除的异步操作
-        })
-    }
+        function batch_del() {
+            var ids=getSelectionsIds();
+            if(ids.length==0){
+                layer.msg('未选中', {icon: 5, time: 1000});
+                return;
+            }
+            layer.confirm('确认要删除吗？', function (index) {
+                if(index){
+                    var idStr={"ids":ids};
+                    $.ajax({
+                        type: 'POST',
+                        url: '/manage/delete/deleteAdmins',
+                        data: idStr,
+                        dataType: 'json',
+                        success: function (data) {
+//                            $(obj).parents("tr").remove();
+                            adminTable.ajax.reload();
+                            layer.msg('已删除!', {icon: 1, time: 1000});
+                        },
+                        error: function (data) {
+                            console.log(data.msg);
+                        },
+                    });
+                }
 
-        function getSelectionsIds() {
-
+            });
         }
+
+
 
         function isSelect(checkBox) {
             if ($(checkBox).attr('checked') == 'checked') { //未被选中
@@ -216,7 +244,8 @@
 
                     "rowCallback": function (row, data) {
                         $(row).addClass('text-c');
-                        var rowInput = '<input id="input' + data['adminId'] + '" type="checkbox" class="adminSelect" onclick="isSelect(this)"/>';
+//                        var rowInput = '<input id="input' + data['adminId'] + '" type="checkbox" class="adminSelect" onclick="isSelect(this)"/>';
+                        var rowInput = '<input id=' + data['adminId'] + ' type="checkbox" class="adminSelect" onclick="isSelect(this)"/>';
                         var enableStatus =
                             '<a style="text-decoration:none" onClick="admin_start(this,' + data['adminId'] + ')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a> ' +
                             '<a title="编辑" href="javascript:;" onclick="admin_edit(\'管理员编辑\',\'admin-add.html\',' + data['adminId'] + ',\'800\',\'350\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> ' +
